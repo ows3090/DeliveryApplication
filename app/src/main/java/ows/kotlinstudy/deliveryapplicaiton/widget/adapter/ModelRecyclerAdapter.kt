@@ -30,6 +30,9 @@ class ModelRecyclerAdapter<M : Model, VM : BaseViewModel>(
         )
     }
 
+    /**
+     * UNCHCKED_CAST : 자식클래스로 변환 시 Cast Lint 에러 방지
+     */
     @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(holder: ModelViewHolder<M>, position: Int) {
         with(holder) {
@@ -38,6 +41,10 @@ class ModelRecyclerAdapter<M : Model, VM : BaseViewModel>(
         }
     }
 
+
+    /**
+     * list가 null이면 무시
+     */
     override fun submitList(list: MutableList<Model>?) {
         list?.let { modelList = it }
         super.submitList(list)
