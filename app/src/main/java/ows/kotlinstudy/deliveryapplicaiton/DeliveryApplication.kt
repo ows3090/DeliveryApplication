@@ -2,6 +2,8 @@ package ows.kotlinstudy.deliveryapplicaiton
 
 import android.app.Application
 import android.content.Context
+import org.koin.core.context.startKoin
+import ows.kotlinstudy.deliveryapplicaiton.di.appModule
 
 class DeliveryApplication : Application() {
 
@@ -9,6 +11,9 @@ class DeliveryApplication : Application() {
         super.onCreate()
         appContext = this
 
+        startKoin {
+            modules(appModule)
+        }
     }
 
     override fun onTerminate() {
