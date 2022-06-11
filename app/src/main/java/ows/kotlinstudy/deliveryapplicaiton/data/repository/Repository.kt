@@ -1,3 +1,0 @@
-package ows.kotlinstudy.deliveryapplicaiton.data.repository
-
-interface Repository
