@@ -12,7 +12,8 @@ class DefaultResourcesProvider(
 
     override fun getString(@StringRes resId: Int): String = context.getString(resId)
 
-    override fun getString(@StringRes resId: Int, vararg formArgs: Any): String = context.getString(resId, formArgs)
+    // TODO: context.getString 메소드 확인
+    override fun getString(@StringRes resId: Int, vararg formArgs: Any): String = context.getString(resId, *formArgs)
 
     override fun getColor(@ColorRes resId: Int): Int = ContextCompat.getColor(context, resId)
 

@@ -2,6 +2,7 @@ package ows.kotlinstudy.deliveryapplicaiton
 
 import android.app.Application
 import android.content.Context
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import ows.kotlinstudy.deliveryapplicaiton.di.appModule
 
@@ -12,6 +13,7 @@ class DeliveryApplication : Application() {
         appContext = this
 
         startKoin {
+            androidContext(this@DeliveryApplication)
             modules(appModule)
         }
     }
