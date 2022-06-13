@@ -1,4 +1,4 @@
-package ows.kotlinstudy.deliveryapplicaiton.data.repository
+package ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

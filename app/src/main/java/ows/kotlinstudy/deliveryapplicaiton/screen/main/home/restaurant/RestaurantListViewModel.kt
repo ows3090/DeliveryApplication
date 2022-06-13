@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import ows.kotlinstudy.deliveryapplicaiton.data.repository.RestaurantRepository
+import ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant.RestaurantRepository
 import ows.kotlinstudy.deliveryapplicaiton.model.restaurant.RestaurantModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseViewModel
 

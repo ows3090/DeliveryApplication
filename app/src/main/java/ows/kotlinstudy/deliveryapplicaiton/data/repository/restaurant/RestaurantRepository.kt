@@ -1,4 +1,4 @@
-package ows.kotlinstudy.deliveryapplicaiton.data.repository
+package ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant
 
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.RestaurantEntity
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantCategory
