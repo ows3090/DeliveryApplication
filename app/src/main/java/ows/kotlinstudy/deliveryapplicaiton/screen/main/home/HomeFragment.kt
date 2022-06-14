@@ -2,6 +2,7 @@ package ows.kotlinstudy.deliveryapplicaiton.screen.main.home
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
@@ -14,10 +15,12 @@ import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.android.viewmodel.ext.android.viewModel
 import ows.kotlinstudy.deliveryapplicaiton.R
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.LocationLatLngEntity
+import ows.kotlinstudy.deliveryapplicaiton.data.entity.MapSearchInfoEntity
 import ows.kotlinstudy.deliveryapplicaiton.databinding.FragmentHomeBinding
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseFragment
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantCategory
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantListFragment
+import ows.kotlinstudy.deliveryapplicaiton.screen.mylocation.MyLocationActivity
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.RestaurantListFragmentPagerAdapater
 
 /**
@@ -64,6 +67,26 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 ).show()
             }
         }
+
+    private val changeLocationLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                result.data?.getParcelableExtra<MapSearchInfoEntity>(HomeViewModel.MY_LOCATION_KEY)
+                    ?.let { myLocationInfo ->
+                        viewModel.loadReverseGeoInformation(myLocationInfo.locationLatLng)
+                    }
+            }
+        }
+
+    override fun initViews() = with(binding) {
+        locationTitleText.setOnClickListener {
+            viewModel.getMapSearchInfo()?.let { mapInfo ->
+                changeLocationLauncher.launch(
+                    MyLocationActivity.newIntent(requireContext(), mapInfo)
+                )
+            }
+        }
+    }
 
     /**
      * TODO viewPager.offscreenPageLimit 조사, TabLayoutMediator 조사

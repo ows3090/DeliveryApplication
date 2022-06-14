@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import ows.kotlinstudy.deliveryapplicaiton.data.entity.MapSearchInfoEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.map.DefaultMapRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.map.MapRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant.DefaultRestaurantRepository
@@ -12,6 +13,7 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.HomeViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantCategory
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantListViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.my.MyViewModel
+import ows.kotlinstudy.deliveryapplicaiton.screen.mylocation.MyLocationViewModel
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.DefaultResourcesProvider
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
 
@@ -22,6 +24,12 @@ val appModule = module {
     viewModel { (restaurantCategory: RestaurantCategory) ->
         RestaurantListViewModel(
             restaurantCategory,
+            get()
+        )
+    }
+    viewModel { (mapSearchInfoEntity: MapSearchInfoEntity) ->
+        MyLocationViewModel(
+            mapSearchInfoEntity,
             get()
         )
     }

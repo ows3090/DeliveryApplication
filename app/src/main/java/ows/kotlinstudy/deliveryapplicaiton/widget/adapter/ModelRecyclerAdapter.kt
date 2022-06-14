@@ -42,7 +42,7 @@ class ModelRecyclerAdapter<M : Model, VM : BaseViewModel>(
     }
 
     /**
-     * list가 null이면 무시
+     * TODO : list가 null이면 무시
      */
     override fun submitList(list: List<Model>?) {
         list?.let { modelList = it }
