@@ -1,11 +1,13 @@
 package ows.kotlinstudy.deliveryapplicaiton.data.entity
 
 import android.os.Parcelable
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
+@androidx.room.Entity
 @Parcelize
 data class LocationLatLngEntity(
     val latitude: Double,
     val longitude: Double,
-    override val id: Long = -1
+    @PrimaryKey(autoGenerate = true) override val id: Long = -1
 ) : Entity, Parcelable

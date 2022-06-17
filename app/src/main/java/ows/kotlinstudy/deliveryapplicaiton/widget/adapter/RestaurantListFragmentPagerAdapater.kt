@@ -2,6 +2,7 @@ package ows.kotlinstudy.deliveryapplicaiton.widget.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import ows.kotlinstudy.deliveryapplicaiton.data.entity.LocationLatLngEntity
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantListFragment
 
 /**
@@ -9,7 +10,8 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.Restauran
  */
 class RestaurantListFragmentPagerAdapater(
     fragment: Fragment,
-    val fragmentList: List<RestaurantListFragment>
+    val fragmentList: List<RestaurantListFragment>,
+    var locationLatLngEntity: LocationLatLngEntity
 ) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = fragmentList.size

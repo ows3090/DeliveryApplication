@@ -6,6 +6,7 @@ import androidx.core.os.bundleOf
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import ows.kotlinstudy.deliveryapplicaiton.data.entity.LocationLatLngEntity
 import ows.kotlinstudy.deliveryapplicaiton.databinding.FragmentRestaurantListBinding
 import ows.kotlinstudy.deliveryapplicaiton.model.restaurant.RestaurantModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseFragment
@@ -17,8 +18,18 @@ class RestaurantListFragment :
     BaseFragment<RestaurantListViewModel, FragmentRestaurantListBinding>() {
 
     private val restaurantCategory by lazy { arguments?.getSerializable(RESTAURANT_CATEGORY_KEY) as RestaurantCategory }
+    private val locationLatLngEntity by lazy {
+        arguments?.getParcelable<LocationLatLngEntity>(
+            LOCATION_KEY
+        )
+    }
 
-    override val viewModel by viewModel<RestaurantListViewModel> { parametersOf(restaurantCategory) }
+    override val viewModel by viewModel<RestaurantListViewModel> {
+        parametersOf(
+            restaurantCategory,
+            locationLatLngEntity
+        )
+    }
 
     override fun getViewBinding(): FragmentRestaurantListBinding =
         FragmentRestaurantListBinding.inflate(layoutInflater)
@@ -47,11 +58,19 @@ class RestaurantListFragment :
 
     companion object {
         const val RESTAURANT_CATEGORY_KEY = "restaurantCategory"
+        const val LOCATION_KEY = "location"
 
-        fun newInstance(restaurantCategory: RestaurantCategory): RestaurantListFragment {
+        /**
+         * TODO : bundleOf()
+         */
+        fun newInstance(
+            restaurantCategory: RestaurantCategory,
+            locationLatLngEntity: LocationLatLngEntity
+        ): RestaurantListFragment {
             return RestaurantListFragment().apply {
                 arguments = bundleOf(
-                    RESTAURANT_CATEGORY_KEY to restaurantCategory
+                    RESTAURANT_CATEGORY_KEY to restaurantCategory,
+                    LOCATION_KEY to locationLatLngEntity
                 )
             }
         }

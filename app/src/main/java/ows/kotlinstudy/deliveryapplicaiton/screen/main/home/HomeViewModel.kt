@@ -7,10 +7,13 @@ import ows.kotlinstudy.deliveryapplicaiton.R
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.LocationLatLngEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.MapSearchInfoEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.map.MapRepository
+import ows.kotlinstudy.deliveryapplicaiton.data.repository.user.DefaultUserRepository
+import ows.kotlinstudy.deliveryapplicaiton.data.repository.user.UserRepository
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseViewModel
 
 class HomeViewModel(
-    private val mapRepository: MapRepository
+    private val mapRepository: MapRepository,
+    private val userRepository: UserRepository
 ) : BaseViewModel() {
 
     val homeStaetLiveData = MutableLiveData<HomeState>(HomeState.Uninitialized)
@@ -19,10 +22,15 @@ class HomeViewModel(
         locationLatLngEntity: LocationLatLngEntity
     ) = viewModelScope.launch {
         homeStaetLiveData.value = HomeState.Loading
-        val addressInfo = mapRepository.getReverseGeoInformation(locationLatLngEntity)
+
+        val userLocation = userRepository.getUserLocation()
+        val currentLocation = userLocation ?: locationLatLngEntity
+
+        val addressInfo = mapRepository.getReverseGeoInformation(currentLocation)
         addressInfo?.let { info ->
             homeStaetLiveData.value = HomeState.Success(
-                info.toSearchInfoEntity(locationLatLngEntity)
+                info.toSearchInfoEntity(locationLatLngEntity),
+                isLocationSame = currentLocation == locationLatLngEntity
             )
         } ?: kotlin.run {
             homeStaetLiveData.value = HomeState.Error(
@@ -32,7 +40,7 @@ class HomeViewModel(
     }
 
     fun getMapSearchInfo(): MapSearchInfoEntity? {
-        when(val data = homeStaetLiveData.value){
+        when (val data = homeStaetLiveData.value) {
             is HomeState.Success -> {
                 return data.mapSearchInfo
             }
@@ -40,7 +48,7 @@ class HomeViewModel(
         return null
     }
 
-    companion object{
+    companion object {
         const val MY_LOCATION_KEY = "MyLocation"
     }
 }

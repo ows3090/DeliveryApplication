@@ -45,7 +45,7 @@ class MyLocationActivity : BaseActivity<MyLocationViewModel, ActivityMyLocationB
             finish()
         }
         confirmButton.setOnClickListener {
-
+            viewModel.confirmSelectLocation()
         }
         setupGoogleMap()
     }
@@ -72,7 +72,10 @@ class MyLocationActivity : BaseActivity<MyLocationViewModel, ActivityMyLocationB
                 }
             }
             is MyLocationState.Confirm -> {
-
+                setResult(RESULT_OK, Intent().apply {
+                    putExtra(HomeViewModel.MY_LOCATION_KEY, it.mapSearchInfoEntity)
+                })
+                finish()
             }
             is MyLocationState.Error -> {
                 Toast.makeText(this, it.messageId, Toast.LENGTH_SHORT).show()
