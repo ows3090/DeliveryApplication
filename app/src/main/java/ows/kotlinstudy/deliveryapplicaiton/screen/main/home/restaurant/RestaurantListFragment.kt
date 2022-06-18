@@ -59,6 +59,7 @@ class RestaurantListFragment :
     companion object {
         const val RESTAURANT_CATEGORY_KEY = "restaurantCategory"
         const val LOCATION_KEY = "location"
+        const val RESTAURANT_KEY = "Restaurant"
 
         /**
          * TODO : bundleOf()
