@@ -10,6 +10,7 @@ import ows.kotlinstudy.deliveryapplicaiton.data.entity.LocationLatLngEntity
 import ows.kotlinstudy.deliveryapplicaiton.databinding.FragmentRestaurantListBinding
 import ows.kotlinstudy.deliveryapplicaiton.model.restaurant.RestaurantModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseFragment
+import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.RestaurantDetailActivity
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.ModelRecyclerAdapter
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.listener.restaurant.RestaurantListListener
@@ -43,7 +44,12 @@ class RestaurantListFragment :
             resourcesProvider,
             adapterListener = object : RestaurantListListener {
                 override fun onClickItem(model: RestaurantModel) {
-                    Toast.makeText(requireContext(), "$model", Toast.LENGTH_SHORT).show()
+                    startActivity(
+                        RestaurantDetailActivity.newIntent(
+                            requireContext(),
+                            model.toEntity()
+                        )
+                    )
                 }
             })
     }
