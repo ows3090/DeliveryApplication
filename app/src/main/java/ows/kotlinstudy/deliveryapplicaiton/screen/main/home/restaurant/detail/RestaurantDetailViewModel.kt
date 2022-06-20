@@ -18,7 +18,8 @@ class RestaurantDetailViewModel(
 
     override fun fecthData(): Job = viewModelScope.launch {
         restaurantDetailStateLiveData.value = RestaurantDetailState.Loading
-        val isLiked = userRepository.getUserLikedRestaurant(restaurantEntity.restaurantTitle) != null
+        val isLiked =
+            userRepository.getUserLikedRestaurant(restaurantEntity.restaurantTitle) != null
         restaurantDetailStateLiveData.value = RestaurantDetailState.Success(
             restaurantEntity = restaurantEntity,
             isLiked = isLiked
@@ -34,8 +35,17 @@ class RestaurantDetailViewModel(
         }
     }
 
+    fun getRestaurantInfo(): RestaurantEntity? {
+        return when (val data = restaurantDetailStateLiveData.value) {
+            is RestaurantDetailState.Success -> {
+                data.restaurantEntity
+            }
+            else -> null
+        }
+    }
+
     fun toggleLikedRestaurant() = viewModelScope.launch {
-        when(val data = restaurantDetailStateLiveData.value){
+        when (val data = restaurantDetailStateLiveData.value) {
             is RestaurantDetailState.Success -> {
                 userRepository.getUserLikedRestaurant(restaurantEntity.restaurantTitle)?.let {
                     userRepository.deletedUserLikedRestaurant(it.restaurantTitle)

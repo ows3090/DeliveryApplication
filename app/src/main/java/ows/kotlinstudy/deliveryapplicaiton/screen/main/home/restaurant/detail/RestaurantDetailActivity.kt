@@ -1,5 +1,6 @@
 package ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail
 
+import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -53,12 +54,13 @@ class RestaurantDetailActivity :
             }
 
             val percentage = realAlphaVerticalOffset / realAlphaScrollHeight
-            restaurantTitleTextView.alpha = 1 - (if (1 - percentage * 2 < 0) 0f else 1 - percentage * 2)
+            restaurantTitleTextView.alpha =
+                1 - (if (1 - percentage * 2 < 0) 0f else 1 - percentage * 2)
         })
         toolbar.setNavigationOnClickListener { finish() }
 
         callButton.setOnClickListener {
-            viewModel.getRestaurantTelNumber()?.let{ telNumber ->
+            viewModel.getRestaurantTelNumber()?.let { telNumber ->
                 val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$telNumber"))
                 startActivity(intent)
             }
@@ -69,7 +71,20 @@ class RestaurantDetailActivity :
         }
 
         shareButton.setOnClickListener {
+            viewModel.getRestaurantInfo()?.let { restaurantInfo ->
+                val intent = Intent(Intent.ACTION_SEND).apply {
+                    type = MIMETYPE_TEXT_PLAIN  // text/plain
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        "맛있는 음식점 : ${restaurantInfo.restaurantTitle}" +
+                                "\n평점 : ${restaurantInfo.grade}" +
+                                "\n연락처 : ${restaurantInfo.restaurantTelNumber}"
+                    )
 
+                }
+                val chooser = Intent.createChooser(intent, "친구에게 공유하기")
+                startActivity(chooser)
+            }
         }
     }
 
