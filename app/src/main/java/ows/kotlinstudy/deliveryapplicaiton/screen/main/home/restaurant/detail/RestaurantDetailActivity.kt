@@ -2,6 +2,7 @@ package ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
@@ -43,7 +44,6 @@ class RestaurantDetailActivity :
             val realAlphaScrollHeight = appBarLayout.measuredHeight - appBarLayout.totalScrollRange
             val abstractOffset = abs(verticalOffset)
 
-            Log.d("msg","${appBarLayout.totalScrollRange}")
             val realAlphaVerticalOffset: Float =
                 if (abstractOffset - topPadding < 0) 0f else abstractOffset - topPadding
 
@@ -58,7 +58,10 @@ class RestaurantDetailActivity :
         toolbar.setNavigationOnClickListener { finish() }
 
         callButton.setOnClickListener {
-
+            viewModel.getRestaurantTelNumber()?.let{ telNumber ->
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$telNumber"))
+                startActivity(intent)
+            }
         }
 
         likeButton.setOnClickListener {
