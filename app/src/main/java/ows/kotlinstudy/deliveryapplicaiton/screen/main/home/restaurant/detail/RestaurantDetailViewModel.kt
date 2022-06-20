@@ -5,18 +5,23 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.RestaurantEntity
+import ows.kotlinstudy.deliveryapplicaiton.data.repository.user.UserRepository
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseViewModel
 
 class RestaurantDetailViewModel(
-    private val restaurantEntity: RestaurantEntity
+    private val restaurantEntity: RestaurantEntity,
+    private val userRepository: UserRepository
 ) : BaseViewModel() {
 
     val restaurantDetailStateLiveData =
         MutableLiveData<RestaurantDetailState>(RestaurantDetailState.Uninitialized)
 
     override fun fecthData(): Job = viewModelScope.launch {
+        restaurantDetailStateLiveData.value = RestaurantDetailState.Loading
+        val isLiked = userRepository.getUserLikedRestaurant(restaurantEntity.restaurantTitle) != null
         restaurantDetailStateLiveData.value = RestaurantDetailState.Success(
-            restaurantEntity = restaurantEntity
+            restaurantEntity = restaurantEntity,
+            isLiked = isLiked
         )
     }
 
@@ -26,6 +31,24 @@ class RestaurantDetailViewModel(
                 data.restaurantEntity.restaurantTelNumber
             }
             else -> null
+        }
+    }
+
+    fun toggleLikedRestaurant() = viewModelScope.launch {
+        when(val data = restaurantDetailStateLiveData.value){
+            is RestaurantDetailState.Success -> {
+                userRepository.getUserLikedRestaurant(restaurantEntity.restaurantTitle)?.let {
+                    userRepository.deletedUserLikedRestaurant(it.restaurantTitle)
+                    restaurantDetailStateLiveData.value = data.copy(
+                        isLiked = false
+                    )
+                } ?: kotlin.run {
+                    userRepository.insertUserLikedRestaurant(restaurantEntity)
+                    restaurantDetailStateLiveData.value = data.copy(
+                        isLiked = true
+                    )
+                }
+            }
         }
     }
 

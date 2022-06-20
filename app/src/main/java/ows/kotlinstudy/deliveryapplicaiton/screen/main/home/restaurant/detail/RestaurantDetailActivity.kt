@@ -65,7 +65,7 @@ class RestaurantDetailActivity :
         }
 
         likeButton.setOnClickListener {
-
+            viewModel.toggleLikedRestaurant()
         }
 
         shareButton.setOnClickListener {
@@ -81,6 +81,9 @@ class RestaurantDetailActivity :
         }
     }
 
+    /**
+     * TODO: textView setCompoundDrawableWithIntrinsicBounds
+     */
     private fun handleSuccess(state: RestaurantDetailState.Success) = with(binding) {
         val restaurantEntity = state.restaurantEntity
 
