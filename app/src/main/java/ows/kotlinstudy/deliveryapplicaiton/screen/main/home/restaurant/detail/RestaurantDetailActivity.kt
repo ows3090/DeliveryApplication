@@ -92,6 +92,8 @@ class RestaurantDetailActivity :
         when (it) {
             is RestaurantDetailState.Success -> {
                 handleSuccess(it)
+
+
             }
         }
     }
