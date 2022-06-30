@@ -7,6 +7,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -19,6 +20,8 @@ import ows.kotlinstudy.deliveryapplicaiton.extensions.fromDpToPx
 import ows.kotlinstudy.deliveryapplicaiton.extensions.load
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseActivity
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantListFragment
+import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.menu.RestaurantMenuListFragment
+import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.review.RestaurantReviewListFragment
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.RestaurantDetailListFragmentPagerAdapater
 import java.lang.Math.abs
 
@@ -95,18 +98,27 @@ class RestaurantDetailActivity :
 
     override fun observeData() = viewModel.restaurantDetailStateLiveData.observe(this) {
         when (it) {
+            is RestaurantDetailState.Loading -> {
+                handleLoading()
+            }
             is RestaurantDetailState.Success -> {
                 handleSuccess(it)
             }
+            else -> Unit
         }
+    }
+
+    private fun handleLoading() = with(binding) {
+        progressBar.isVisible = true
     }
 
     /**
      * TODO: textView setCompoundDrawableWithIntrinsicBounds
      */
     private fun handleSuccess(state: RestaurantDetailState.Success) = with(binding) {
-        val restaurantEntity = state.restaurantEntity
+        progressBar.isVisible = false
 
+        val restaurantEntity = state.restaurantEntity
         callButton.isGone = restaurantEntity.restaurantTelNumber == null
 
         restaurantTitleTextView.text = restaurantEntity.restaurantTitle
@@ -138,19 +150,33 @@ class RestaurantDetailActivity :
             null, null, null
         )
 
-        if(::viewPagerAdapter.isInitialized.not()){
+        if (::viewPagerAdapter.isInitialized.not()) {
             initViewPager(state.restaurantEntity.restaurantInfoId, state.restaurantFoodList)
         }
     }
 
-    private fun initViewPager(restaurantInfoId: Long, restaurantFoodList: List<RestaurantFoodEntity>?) {
+    private fun initViewPager(
+        restaurantInfoId: Long,
+        restaurantFoodList: List<RestaurantFoodEntity>?
+    ) {
         viewPagerAdapter = RestaurantDetailListFragmentPagerAdapater(
             this,
-            listOf()
+            listOf(
+                RestaurantMenuListFragment.newInstance(
+                    restaurantInfoId,
+                    ArrayList(restaurantFoodList ?: listOf())
+                ),
+                RestaurantReviewListFragment.newInstance(
+                    restaurantInfoId
+                )
+            )
         )
         binding.menuAndReviewViewPager.adapter = viewPagerAdapter
-        TabLayoutMediator(binding.menuAndReviewTabLayout, binding.menuAndReviewViewPager){ tab, position ->
-            tab.setText(restaurantCategory)
+        TabLayoutMediator(
+            binding.menuAndReviewTabLayout,
+            binding.menuAndReviewViewPager
+        ) { tab, position ->
+            tab.setText(RestaurantCategoryDetail.values()[position].categoryNameId)
         }.attach()
     }
 

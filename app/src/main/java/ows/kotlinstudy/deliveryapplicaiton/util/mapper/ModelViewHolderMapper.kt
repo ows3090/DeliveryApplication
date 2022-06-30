@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ows.kotlinstudy.deliveryapplicaiton.databinding.ViewholderEmptyBinding
+import ows.kotlinstudy.deliveryapplicaiton.databinding.ViewholderFoodMenuBinding
 import ows.kotlinstudy.deliveryapplicaiton.databinding.ViewholderRestaurantBinding
 import ows.kotlinstudy.deliveryapplicaiton.model.CellType
 import ows.kotlinstudy.deliveryapplicaiton.model.Model
@@ -11,6 +12,7 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseViewModel
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.EmptyViewHolder
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.ModelViewHolder
+import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.food.FoodMenuViewHolder
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.restaurant.RestaurantViewHolder
 
 object ModelViewHolderMapper {
@@ -31,6 +33,11 @@ object ModelViewHolderMapper {
             )
             CellType.RESTAURANT_CELL -> RestaurantViewHolder(
                 ViewholderRestaurantBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourcesProvider
+            )
+            CellType.FOOD_CELL -> FoodMenuViewHolder(
+                ViewholderFoodMenuBinding.inflate(inflater, parent, false),
                 viewModel,
                 resourcesProvider
             )

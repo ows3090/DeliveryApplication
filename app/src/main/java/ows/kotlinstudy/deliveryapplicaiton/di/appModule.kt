@@ -20,6 +20,7 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.HomeViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantCategory
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantListViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.RestaurantDetailViewModel
+import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.menu.RestaurantMenuListViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.my.MyViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.mylocation.MyLocationViewModel
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.DefaultResourcesProvider
@@ -46,6 +47,8 @@ val appModule = module {
     viewModel { (restaurantEntity: RestaurantEntity) ->
         RestaurantDetailViewModel(restaurantEntity, get(), get())
     }
+
+    viewModel { RestaurantMenuListViewModel() }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
