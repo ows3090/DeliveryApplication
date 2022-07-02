@@ -15,6 +15,8 @@ import ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant.DefaultRes
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant.RestaurantRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant.food.DefaultRestaurantFoodRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant.food.RestaurantFoodRepository
+import ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant.review.DefaultRestaurantReviewRepository
+import ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant.review.RestaurantReviewRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.user.DefaultUserRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.user.UserRepository
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.HomeViewModel
@@ -22,6 +24,7 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.Restauran
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantListViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.RestaurantDetailViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.menu.RestaurantMenuListViewModel
+import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.review.RestaurantReviewListViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.my.MyViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.mylocation.MyLocationViewModel
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.DefaultResourcesProvider
@@ -57,10 +60,15 @@ val appModule = module {
         )
     }
 
+    viewModel { (restaurantTitle: String) ->
+        RestaurantReviewListViewModel(restaurantTitle, get())
+    }
+
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
     single<UserRepository> { DefaultUserRepository(get(), get(), get()) }
-    single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(),get()) }
+    single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
+    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
 
     single { provideGsonConvertFactory() }
     single { buildOkHttpClient() }
