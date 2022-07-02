@@ -1,6 +1,7 @@
 package ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.review
 
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.RestaurantReviewEntity
+import ows.kotlinstudy.deliveryapplicaiton.model.restaurant.review.RestaurantReviewModel
 
 sealed class RestaurantReviewState {
 
@@ -9,7 +10,7 @@ sealed class RestaurantReviewState {
     object Loading : RestaurantReviewState()
 
     data class Success(
-        val reviewList: List<RestaurantReviewEntity>
+        val reviewList: List<RestaurantReviewModel>
     ) : RestaurantReviewState()
 
 }
