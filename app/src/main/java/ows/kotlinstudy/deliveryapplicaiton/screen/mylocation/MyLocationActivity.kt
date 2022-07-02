@@ -20,9 +20,7 @@ import ows.kotlinstudy.deliveryapplicaiton.databinding.ActivityMyLocationBinding
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseActivity
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.HomeViewModel
 
-/**
- * TODO : attr? 리소스 설정 vs @style로 바로 지정
- */
+
 class MyLocationActivity : BaseActivity<MyLocationViewModel, ActivityMyLocationBinding>(),
     OnMapReadyCallback {
 

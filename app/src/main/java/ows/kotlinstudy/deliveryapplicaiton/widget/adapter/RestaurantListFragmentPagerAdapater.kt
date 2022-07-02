@@ -7,6 +7,9 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.Restauran
 
 /**
  * TODO : ViewPager Adapter별 특징, RecyclerView 기반 Apater과의 차이
+ * fragment : ParentFragment
+ * fragmentList : ViewPager Fragment List
+ * locationLngEntity : location Information
  */
 class RestaurantListFragmentPagerAdapater(
     fragment: Fragment,

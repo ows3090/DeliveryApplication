@@ -7,6 +7,9 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseViewModel
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.listener.AdapterListener
 
+/**
+ * Base View Holder 클래스 -> Base RecyclerView Adapter에서 사용
+ */
 abstract class ModelViewHolder<M : Model>(
     binding: ViewBinding,
     protected val viewModel: BaseViewModel,

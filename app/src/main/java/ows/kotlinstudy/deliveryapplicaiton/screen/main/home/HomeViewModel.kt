@@ -6,17 +6,22 @@ import kotlinx.coroutines.launch
 import ows.kotlinstudy.deliveryapplicaiton.R
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.LocationLatLngEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.MapSearchInfoEntity
+import ows.kotlinstudy.deliveryapplicaiton.data.entity.RestaurantFoodEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.map.MapRepository
+import ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant.food.RestaurantFoodRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.user.DefaultUserRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.user.UserRepository
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseViewModel
 
 class HomeViewModel(
     private val mapRepository: MapRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val restaurantFoodRepository: RestaurantFoodRepository
 ) : BaseViewModel() {
 
     val homeStaetLiveData = MutableLiveData<HomeState>(HomeState.Uninitialized)
+
+    val foodMenuBasketLiveData = MutableLiveData<List<RestaurantFoodEntity>>()
 
     fun loadReverseGeoInformation(
         locationLatLngEntity: LocationLatLngEntity
@@ -46,6 +51,10 @@ class HomeViewModel(
             }
         }
         return null
+    }
+
+    fun checkMyBasket() = viewModelScope.launch{
+        foodMenuBasketLiveData.value = restaurantFoodRepository.getAllFoodMenuListInBasket()
     }
 
     companion object {

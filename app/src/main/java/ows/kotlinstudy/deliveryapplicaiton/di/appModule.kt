@@ -8,6 +8,7 @@ import org.koin.dsl.module
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.LocationLatLngEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.MapSearchInfoEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.RestaurantEntity
+import ows.kotlinstudy.deliveryapplicaiton.data.entity.RestaurantFoodEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.map.DefaultMapRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.map.MapRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant.DefaultRestaurantRepository
@@ -28,7 +29,7 @@ import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
 
 val appModule = module {
 
-    viewModel { HomeViewModel(get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { MyViewModel() }
     viewModel { (restaurantCategory: RestaurantCategory, locationLatLngEntity: LocationLatLngEntity) ->
         RestaurantListViewModel(
@@ -48,12 +49,18 @@ val appModule = module {
         RestaurantDetailViewModel(restaurantEntity, get(), get())
     }
 
-    viewModel { RestaurantMenuListViewModel() }
+    viewModel { (restaurantId: Long, restaurantFoodList: List<RestaurantFoodEntity>) ->
+        RestaurantMenuListViewModel(
+            restaurantId,
+            restaurantFoodList,
+            get()
+        )
+    }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
     single<UserRepository> { DefaultUserRepository(get(), get(), get()) }
-    single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get()) }
+    single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(),get()) }
 
     single { provideGsonConvertFactory() }
     single { buildOkHttpClient() }
@@ -68,7 +75,7 @@ val appModule = module {
     single { provideDB(androidApplication()) }
     single { provideLocationDao(get()) }
     single { provideRestaurantDao(get()) }
-
+    single { provideFoodMenuBasketDao(get()) }
 
     single<ResourcesProvider> { DefaultResourcesProvider(androidApplication()) }
 

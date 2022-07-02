@@ -10,6 +10,7 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.menu.RestaurantMenuListViewModel
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.listener.AdapterListener
+import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.listener.restaurant.FoodMenuListListener
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.ModelViewHolder
 
 class FoodMenuViewHolder(
@@ -29,11 +30,15 @@ class FoodMenuViewHolder(
             foodImage.load(model.imageUrl, 24f, CenterCrop())
             foodTitleText.text = model.title
             foodDescriptionText.text = model.description
-            priceText.text = resourcesProvider.getString(R.string.price)
+            priceText.text = resourcesProvider.getString(R.string.price, model.prices)
         }
     }
 
     override fun bindViews(model: FoodModel, adapterListener: AdapterListener) {
-
+        if(adapterListener is FoodMenuListListener){
+            binding.root.setOnClickListener {
+                adapterListener.onClickItem(model)
+            }
+        }
     }
 }
