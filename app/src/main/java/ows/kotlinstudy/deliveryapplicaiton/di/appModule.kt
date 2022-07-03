@@ -9,6 +9,7 @@ import ows.kotlinstudy.deliveryapplicaiton.data.entity.LocationLatLngEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.MapSearchInfoEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.RestaurantEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.RestaurantFoodEntity
+import ows.kotlinstudy.deliveryapplicaiton.data.preference.AppPreferenceManager
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.map.DefaultMapRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.map.MapRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.restaurant.DefaultRestaurantRepository
@@ -33,7 +34,7 @@ import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
 val appModule = module {
 
     viewModel { HomeViewModel(get(), get(), get()) }
-    viewModel { MyViewModel() }
+    viewModel { MyViewModel(get()) }
     viewModel { (restaurantCategory: RestaurantCategory, locationLatLngEntity: LocationLatLngEntity) ->
         RestaurantListViewModel(
             restaurantCategory,
@@ -86,6 +87,7 @@ val appModule = module {
     single { provideFoodMenuBasketDao(get()) }
 
     single<ResourcesProvider> { DefaultResourcesProvider(androidApplication()) }
+    single { AppPreferenceManager(androidApplication()) }
 
     single { Dispatchers.IO }
     single { Dispatchers.Main }
