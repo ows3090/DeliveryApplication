@@ -13,6 +13,7 @@ import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.EmptyViewHo
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.ModelViewHolder
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.food.FoodMenuViewHolder
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.order.OrderMenuViewHolder
+import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.order.OrderViewHolder
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.restaurant.LikeRestaurantViewHolder
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.restaurant.RestaurantViewHolder
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.review.RestaurantReviewViewHolder
@@ -55,6 +56,11 @@ object ModelViewHolderMapper {
             )
             CellType.ORDER_FOOD_CELL -> OrderMenuViewHolder(
                 ViewholderOrderMenuBinding.inflate(inflater, parent, false),
+                viewModel,
+                resourcesProvider
+            )
+            CellType.ORDER_CELL -> OrderViewHolder(
+                ViewholderOrderBinding.inflate(inflater, parent, false),
                 viewModel,
                 resourcesProvider
             )

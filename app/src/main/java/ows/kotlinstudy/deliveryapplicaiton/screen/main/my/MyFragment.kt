@@ -1,6 +1,7 @@
 package ows.kotlinstudy.deliveryapplicaiton.screen.main.my
 
 import android.app.Activity
+import android.widget.Adapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
@@ -10,11 +11,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import ows.kotlinstudy.deliveryapplicaiton.R
 import ows.kotlinstudy.deliveryapplicaiton.databinding.FragmentMyBinding
 import ows.kotlinstudy.deliveryapplicaiton.extensions.load
+import ows.kotlinstudy.deliveryapplicaiton.model.restaurant.order.OrderModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseFragment
+import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
+import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.ModelRecyclerAdapter
+import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.listener.AdapterListener
 import kotlin.math.sign
 
 class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
@@ -50,6 +56,17 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
             }
         }
 
+    private val resourcesProvider by inject<ResourcesProvider>()
+
+    private val adapter by lazy {
+        ModelRecyclerAdapter<OrderModel, MyViewModel>(
+            listOf(),
+            viewModel,
+            resourcesProvider,
+            adapterListener = object : AdapterListener {}
+        )
+    }
+
     override fun initViews() = with(binding) {
         loginButton.setOnClickListener {
             signInGoogle()
@@ -59,6 +76,7 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
             firebaseAuth.signOut()
             viewModel.signOut()
         }
+        recyclerView.adapter = adapter
     }
 
     private fun signInGoogle() {
@@ -76,15 +94,15 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
         }
     }
 
-    private fun handleLoadingState(){
+    private fun handleLoadingState() {
         binding.loginRequiredGroup.isGone = true
         binding.progressBar.isVisible = true
     }
 
-    private fun handleSuccessState(myState: MyState.Success) = with(binding){
+    private fun handleSuccessState(myState: MyState.Success) = with(binding) {
         progressBar.isGone = true
-        when(myState){
-            is MyState.Success.Registered ->{
+        when (myState) {
+            is MyState.Success.Registered -> {
                 handleRegisteredState(myState)
             }
             is MyState.Success.NotRegistered -> {
@@ -94,30 +112,31 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
         }
     }
 
-    private fun handleRegisteredState(myState: MyState.Success.Registered) = with(binding){
+    private fun handleRegisteredState(myState: MyState.Success.Registered) = with(binding) {
         profileGroup.isVisible = true
         loginRequiredGroup.isGone = true
         profileImageView.load(myState.profileImageUri.toString(), 60f)
         userNameTextView.text = myState.userName
-        Toast.makeText(requireContext(), myState.orderList.toString(), Toast.LENGTH_SHORT).show()
+
+        adapter.submitList(myState.orderList)
     }
 
-    private fun handleLoginState(myState: MyState.Login){
+    private fun handleLoginState(myState: MyState.Login) {
         binding.progressBar.isVisible = true
         val credential = GoogleAuthProvider.getCredential(myState.idToken, null)
         firebaseAuth.signInWithCredential(credential)
-            .addOnCompleteListener(requireActivity()){ task ->
-                if(task.isSuccessful){
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
                     val user = firebaseAuth.currentUser
                     viewModel.setUserInfo(user)
-                }else{
+                } else {
                     firebaseAuth.signOut()
                     viewModel.setUserInfo(null)
                 }
             }
     }
 
-    private fun handleErrorState(myState: MyState.Error){
+    private fun handleErrorState(myState: MyState.Error) {
 
     }
 

@@ -7,11 +7,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ows.kotlinstudy.deliveryapplicaiton.R
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.OrderEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.preference.AppPreferenceManager
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.order.DefaultOrderRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.order.OrderRepository
+import ows.kotlinstudy.deliveryapplicaiton.data.repository.user.DefaultUserRepository
 import ows.kotlinstudy.deliveryapplicaiton.data.repository.user.UserRepository
+import ows.kotlinstudy.deliveryapplicaiton.model.restaurant.order.OrderModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseViewModel
 
 class MyViewModel(
@@ -46,7 +49,21 @@ class MyViewModel(
                     myStateLiveData.value = MyState.Success.Registered(
                         userName = user.displayName ?: "익명",
                         profileImageUri = user.photoUrl,
-                        orderList = orderList
+                        orderList = orderList.map {
+                            OrderModel(
+                                id = it.hashCode().toLong(),
+                                orderId = it.id,
+                                userId = it.userId,
+                                restaurantId = it.restaurantId,
+                                foodMenuList = it.foodMenuList
+                            )
+                        }
+                    )
+                }
+                is DefaultOrderRepository.Result.Error -> {
+                    myStateLiveData.value = MyState.Error(
+                        R.string.request_error,
+                        orderMenusResult.e
                     )
                 }
             }
