@@ -3,6 +3,7 @@ package ows.kotlinstudy.deliveryapplicaiton.screen.main.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
@@ -11,17 +12,25 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import ows.kotlinstudy.deliveryapplicaiton.R
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.LocationLatLngEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.MapSearchInfoEntity
 import ows.kotlinstudy.deliveryapplicaiton.databinding.FragmentHomeBinding
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseFragment
+import ows.kotlinstudy.deliveryapplicaiton.screen.main.MainActivity
+import ows.kotlinstudy.deliveryapplicaiton.screen.main.MainTabMenu
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantCategory
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantListFragment
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.RestaurantOrder
 import ows.kotlinstudy.deliveryapplicaiton.screen.mylocation.MyLocationActivity
+import ows.kotlinstudy.deliveryapplicaiton.screen.order.OrderMenuListActivity
+import ows.kotlinstudy.deliveryapplicaiton.util.event.MenuChangeEventBus
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.RestaurantListFragmentPagerAdapater
 
 /**
@@ -40,6 +49,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     private lateinit var locationManager: LocationManager
 
     private lateinit var myLocationListener: MyLocationListener
+
+    private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
+
+    private val menuChangeEventBus by inject<MenuChangeEventBus>()
 
     /**
      * registerForActivityResult : startActivityForResult deprecated 되면서 대체 방법
@@ -200,13 +213,38 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                 binding.basketButtonContainer.isVisible = true
                 binding.basketCountTextView.text = getString(R.string.basket_count, it.size)
                 binding.basketButton.setOnClickListener {
-                    // TODO 주문하기 화면 또는 로그인
+                    if (firebaseAuth.currentUser == null) {
+                        alertLoginNeed {
+                            lifecycleScope.launch {
+                                menuChangeEventBus.changeMenu(MainTabMenu.MY)
+                            }
+                        }
+                    } else {
+                        startActivity(
+                            OrderMenuListActivity.newIntent(requireContext())
+                        )
+                    }
                 }
             } else {
                 binding.basketButtonContainer.isGone = true
                 binding.basketButton.setOnClickListener(null)
             }
         }
+    }
+
+    private fun alertLoginNeed(afterAction: () -> Unit) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("로그인이 필요합니다.")
+            .setMessage("주문하려면 로그이 필요합니다. My탭으로 이동하시겠습니까?")
+            .setPositiveButton("이동") { dialog, _ ->
+                afterAction()
+                dialog.dismiss()
+            }
+            .setNegativeButton("취소") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
     private fun getMyLocation() {

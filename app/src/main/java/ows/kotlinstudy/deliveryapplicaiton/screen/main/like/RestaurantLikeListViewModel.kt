@@ -16,7 +16,7 @@ class RestaurantLikeListViewModel(
 
     val restaurantListLiveData = MutableLiveData<List<RestaurantModel>>()
 
-    override fun fecthData(): Job = viewModelScope.launch {
+    override fun fetchData(): Job = viewModelScope.launch {
         restaurantListLiveData.value = userRepository.getAllUserLikedRestaurantList().map {
             RestaurantModel(
                 it.id,
@@ -36,6 +36,6 @@ class RestaurantLikeListViewModel(
 
     fun dislikeRestaurant(restaurantEntity: RestaurantEntity) = viewModelScope.launch{
         userRepository.deletedUserLikedRestaurant(restaurantEntity.restaurantTitle)
-        fecthData()
+        fetchData()
     }
 }

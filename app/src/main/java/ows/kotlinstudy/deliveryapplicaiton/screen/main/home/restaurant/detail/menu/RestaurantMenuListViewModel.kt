@@ -21,7 +21,7 @@ class RestaurantMenuListViewModel(
 
     val isClearNeedInBasketLiveData = MutableLiveData<Pair<Boolean, () -> Unit>>()
 
-    override fun fecthData(): Job = viewModelScope.launch {
+    override fun fetchData(): Job = viewModelScope.launch {
         restaurantFoodListLiveData.value = foodEntityList.map {
             FoodModel(
                 id = it.hashCode().toLong(),

@@ -10,7 +10,7 @@ abstract class BaseViewModel : ViewModel() {
 
     protected var stateBundle: Bundle? = null
 
-    open fun fecthData(): Job = viewModelScope.launch { }
+    open fun fetchData(): Job = viewModelScope.launch { }
 
     open fun storeState(stateBundle: Bundle) {
         this.stateBundle = stateBundle

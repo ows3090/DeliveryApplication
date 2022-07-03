@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.Job
@@ -41,7 +40,7 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment() {
             viewModel.storeState(it)
         }
         initViews()
-        fetchJob = viewModel.fecthData()
+        fetchJob = viewModel.fetchData()
         observeData()
     }
 

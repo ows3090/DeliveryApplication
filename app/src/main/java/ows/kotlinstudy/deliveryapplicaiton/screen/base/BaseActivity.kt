@@ -28,7 +28,7 @@ abstract class BaseActivity<VM : BaseViewModel, VB : ViewBinding> : AppCompatAct
 
     open fun initState() {
         initViews()
-        fetchJob = viewModel.fecthData()
+        fetchJob = viewModel.fetchData()
         observeData()
     }
 

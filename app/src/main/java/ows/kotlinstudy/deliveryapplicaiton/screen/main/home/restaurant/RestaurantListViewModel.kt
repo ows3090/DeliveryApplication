@@ -1,6 +1,5 @@
 package ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
@@ -19,7 +18,7 @@ class RestaurantListViewModel(
 
     val restaurantListLiveData = MutableLiveData<List<RestaurantModel>>()
 
-    override fun fecthData(): Job = viewModelScope.launch {
+    override fun fetchData(): Job = viewModelScope.launch {
         val restaurantList = restaurantRepository.getList(restaurantCategory, locationLatLngEntity)
         val sortedList = when (restaurantOrder) {
             RestaurantOrder.DEFAULT -> {
@@ -54,11 +53,11 @@ class RestaurantListViewModel(
 
     fun setLocationLatLng(locationLatLngEntity: LocationLatLngEntity) {
         this.locationLatLngEntity = locationLatLngEntity
-        fecthData()
+        fetchData()
     }
 
     fun setRestaurantOrder(order: RestaurantOrder) {
         this.restaurantOrder = order
-        fecthData()
+        fetchData()
     }
 }

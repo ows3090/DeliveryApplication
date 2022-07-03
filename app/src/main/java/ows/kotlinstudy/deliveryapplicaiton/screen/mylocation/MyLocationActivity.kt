@@ -56,7 +56,7 @@ class MyLocationActivity : BaseActivity<MyLocationViewModel, ActivityMyLocationB
 
     override fun onMapReady(map: GoogleMap) {
         this.map = map ?: return
-        viewModel.fecthData()
+        viewModel.fetchData()
     }
 
     override fun observeData() = viewModel.myLocationStateLiveData.observe(this) {

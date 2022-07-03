@@ -46,7 +46,7 @@ class RestaurantLikeListFragment :
 
     override fun onResume() {
         super.onResume()
-        viewModel.fecthData()
+        viewModel.fetchData()
     }
 
     override fun initViews() {

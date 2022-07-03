@@ -19,7 +19,7 @@ class MyLocationViewModel(
 ) : BaseViewModel() {
     val myLocationStateLiveData = MutableLiveData<MyLocationState>(MyLocationState.Uninitialized)
 
-    override fun fecthData(): Job = viewModelScope.launch {
+    override fun fetchData(): Job = viewModelScope.launch {
         myLocationStateLiveData.value = MyLocationState.Loading
         myLocationStateLiveData.value = MyLocationState.Success(mapSearchInfoEntity)
     }

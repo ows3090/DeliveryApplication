@@ -2,7 +2,6 @@ package ows.kotlinstudy.deliveryapplicaiton.screen.main.my
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -17,7 +16,7 @@ class MyViewModel(
 
     val myStateLiveData = MutableLiveData<MyState>(MyState.UnInitialized)
 
-    override fun fecthData(): Job = viewModelScope.launch {
+    override fun fetchData(): Job = viewModelScope.launch {
         myStateLiveData.value = MyState.Loading
         appPreferenceManager.getIdToken()?.let {
             myStateLiveData.value = MyState.Login(it)
@@ -29,7 +28,7 @@ class MyViewModel(
     fun saveToken(idToken: String) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             appPreferenceManager.putIdToken(idToken)
-            fecthData()
+            fetchData()
         }
     }
 
@@ -48,6 +47,6 @@ class MyViewModel(
         withContext(Dispatchers.IO){
             appPreferenceManager.removeIdToken()
         }
-        fecthData()
+        fetchData()
     }
 }

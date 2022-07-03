@@ -15,7 +15,7 @@ class RestaurantReviewListViewModel(
 
     val reviewStateLiveData = MutableLiveData<RestaurantReviewState>(RestaurantReviewState.Uninitialized)
 
-    override fun fecthData(): Job = viewModelScope.launch {
+    override fun fetchData(): Job = viewModelScope.launch {
         reviewStateLiveData.value = RestaurantReviewState.Loading
         val reviews = restaurantReviewRepository.getReviews(restaurantTitle)
         reviewStateLiveData.value = RestaurantReviewState.Success(
