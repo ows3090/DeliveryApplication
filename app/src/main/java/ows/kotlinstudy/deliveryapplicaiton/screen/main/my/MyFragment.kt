@@ -1,6 +1,7 @@
 package ows.kotlinstudy.deliveryapplicaiton.screen.main.my
 
 import android.app.Activity
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -98,6 +99,7 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
         loginRequiredGroup.isGone = true
         profileImageView.load(myState.profileImageUri.toString(), 60f)
         userNameTextView.text = myState.userName
+        Toast.makeText(requireContext(), myState.orderList.toString(), Toast.LENGTH_SHORT).show()
     }
 
     private fun handleLoginState(myState: MyState.Login){

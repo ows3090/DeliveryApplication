@@ -7,11 +7,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ows.kotlinstudy.deliveryapplicaiton.data.entity.OrderEntity
 import ows.kotlinstudy.deliveryapplicaiton.data.preference.AppPreferenceManager
+import ows.kotlinstudy.deliveryapplicaiton.data.repository.order.DefaultOrderRepository
+import ows.kotlinstudy.deliveryapplicaiton.data.repository.order.OrderRepository
+import ows.kotlinstudy.deliveryapplicaiton.data.repository.user.UserRepository
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseViewModel
 
 class MyViewModel(
-    private val appPreferenceManager: AppPreferenceManager
+    private val appPreferenceManager: AppPreferenceManager,
+    private val userRepository: UserRepository,
+    private val orderRepository: OrderRepository
 ) : BaseViewModel() {
 
     val myStateLiveData = MutableLiveData<MyState>(MyState.UnInitialized)
@@ -32,21 +38,28 @@ class MyViewModel(
         }
     }
 
-    fun setUserInfo(firebaseUser: FirebaseUser?) = viewModelScope.launch{
+    fun setUserInfo(firebaseUser: FirebaseUser?) = viewModelScope.launch {
         firebaseUser?.let { user ->
-            myStateLiveData.value = MyState.Success.Registered(
-                userName = user.displayName?: "익명",
-                profileImageUri = user.photoUrl
-            )
-        }?: kotlin.run {
+            when (val orderMenusResult = orderRepository.getAllOrderMenus(user.uid)) {
+                is DefaultOrderRepository.Result.Success<*> -> {
+                    val orderList = orderMenusResult.data as List<OrderEntity>
+                    myStateLiveData.value = MyState.Success.Registered(
+                        userName = user.displayName ?: "익명",
+                        profileImageUri = user.photoUrl,
+                        orderList = orderList
+                    )
+                }
+            }
+        } ?: kotlin.run {
             myStateLiveData.value = MyState.Success.NotRegistered
         }
     }
 
     fun signOut() = viewModelScope.launch {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             appPreferenceManager.removeIdToken()
         }
+        userRepository.deleteAllUserLikedRestaurant()
         fetchData()
     }
 }

@@ -41,7 +41,7 @@ import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
 val appModule = module {
 
     viewModel { HomeViewModel(get(), get(), get()) }
-    viewModel { MyViewModel(get()) }
+    viewModel { MyViewModel(get(), get(), get()) }
     viewModel { (restaurantCategory: RestaurantCategory, locationLatLngEntity: LocationLatLngEntity) ->
         RestaurantListViewModel(
             restaurantCategory,
@@ -74,7 +74,7 @@ val appModule = module {
         RestaurantReviewListViewModel(restaurantTitle, get())
     }
 
-    viewModel { OrderMenuListViewModel(get(),get()) }
+    viewModel { OrderMenuListViewModel(get(), get()) }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
