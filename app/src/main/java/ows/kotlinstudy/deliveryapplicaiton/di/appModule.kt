@@ -26,6 +26,7 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.Restauran
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.RestaurantDetailViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.menu.RestaurantMenuListViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.review.RestaurantReviewListViewModel
+import ows.kotlinstudy.deliveryapplicaiton.screen.main.like.RestaurantLikeListViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.my.MyViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.mylocation.MyLocationViewModel
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.DefaultResourcesProvider
@@ -60,6 +61,8 @@ val appModule = module {
             get()
         )
     }
+
+    viewModel { RestaurantLikeListViewModel(get()) }
 
     viewModel { (restaurantTitle: String) ->
         RestaurantReviewListViewModel(restaurantTitle, get())

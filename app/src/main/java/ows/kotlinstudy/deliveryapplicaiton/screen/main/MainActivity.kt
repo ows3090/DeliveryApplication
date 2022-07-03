@@ -9,6 +9,7 @@ import com.google.android.material.navigation.NavigationBarView
 import ows.kotlinstudy.deliveryapplicaiton.R
 import ows.kotlinstudy.deliveryapplicaiton.databinding.ActivityMainBinding
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.HomeFragment
+import ows.kotlinstudy.deliveryapplicaiton.screen.main.like.RestaurantLikeListFragment
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.my.MyFragment
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
@@ -36,6 +37,13 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             }
             R.id.menu_my -> {
                 showFragment(MyFragment.newInstance(), MyFragment.TAG)
+                true
+            }
+            R.id.menu_like -> {
+                showFragment(
+                    RestaurantLikeListFragment.newInstance(),
+                    RestaurantLikeListFragment.TAG
+                )
                 true
             }
             else -> false

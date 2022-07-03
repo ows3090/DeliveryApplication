@@ -7,7 +7,13 @@
         android:title="@string/hoome" />
 
     <item
+        android:id="@+id/menu_like"
+        android:icon="@drawable/ic_heart_disable"
+        android:title="찜" />
+
+    <item
         android:id="@+id/menu_my"
         android:icon="@drawable/ic_my"
         android:title="@string/my" />
+
 </menu>
