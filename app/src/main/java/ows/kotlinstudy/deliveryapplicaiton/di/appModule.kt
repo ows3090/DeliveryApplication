@@ -1,7 +1,10 @@
 package ows.kotlinstudy.deliveryapplicaiton.di
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
@@ -34,6 +37,7 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.main.like.RestaurantLikeListVi
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.my.MyViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.mylocation.MyLocationViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.order.OrderMenuListViewModel
+import ows.kotlinstudy.deliveryapplicaiton.screen.review.gallery.GalleryViewModel
 import ows.kotlinstudy.deliveryapplicaiton.util.event.MenuChangeEventBus
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.DefaultResourcesProvider
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
@@ -75,6 +79,7 @@ val appModule = module {
     }
 
     viewModel { OrderMenuListViewModel(get(), get()) }
+    viewModel { GalleryViewModel() }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
@@ -107,4 +112,7 @@ val appModule = module {
     single { MenuChangeEventBus() }
 
     single { Firebase.firestore }
+    single { FirebaseAuth.getInstance() }
+    single { FirebaseStorage.getInstance() }
+    single { FirebaseFirestore.getInstance() }
 }

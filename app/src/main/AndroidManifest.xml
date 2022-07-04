@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeliveryApplicaiton">
         <activity
+            android:name=".screen.review.gallery.GalleryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screen.review.AddRestaurantReviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".screen.order.OrderMenuListActivity"
             android:exported="false" />
         <activity

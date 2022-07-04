@@ -36,7 +36,8 @@ class OrderMenuListViewModel(
                     prices = it.prices,
                     imageUrl = it.imageUrl,
                     restaurantId = it.restaurantId,
-                    foodId = it.id
+                    foodId = it.id,
+                    restaurantTitle = it.restaurantTitle
                 )
             }
         )
@@ -46,9 +47,10 @@ class OrderMenuListViewModel(
         val foodMenuList = restaurantFoodRepository.getAllFoodMenuListInBasket()
         if (foodMenuList.isNotEmpty()) {
             val restaurantId = foodMenuList.first().restaurantId
+            val restaurantTitle = foodMenuList.first().restaurantTitle
 
             firebaseAuth.currentUser?.let { user ->
-                when(val data = orderRepository.orderMenu(userId = user.uid, restaurantId, foodMenuList)){
+                when(val data = orderRepository.orderMenu(userId = user.uid, restaurantId, foodMenuList, restaurantTitle)){
                     is DefaultOrderRepository.Result.Success<*> -> {
                         restaurantFoodRepository.clearFoodMenuListInBasket()
                         orderMenuStateLiveData.value = OrderMenuState.Order

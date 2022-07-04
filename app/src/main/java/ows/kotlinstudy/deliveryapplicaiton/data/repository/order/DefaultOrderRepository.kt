@@ -16,13 +16,15 @@ class DefaultOrderRepository(
     override suspend fun orderMenu(
         userId: String,
         restaurantId: Long,
-        foodMenuList: List<RestaurantFoodEntity>
+        foodMenuList: List<RestaurantFoodEntity>,
+        restaurantTitle: String
     ): Result = withContext(ioDispatcher) {
         val result: Result
         val orderMenuData = hashMapOf(
             "restaurantId" to restaurantId,
             "userId" to userId,
-            "orderMenuList" to foodMenuList
+            "orderMenuList" to foodMenuList,
+            "restaurantTitle" to restaurantTitle
         )
         result = try {
             firestore.collection("order").add(orderMenuData)
@@ -54,9 +56,11 @@ class DefaultOrderRepository(
                             prices = (food.get("prices") as Long).toInt(),
                             imageUrl = food.get("imageUrl") as String,
                             restaurantId = food.get("restaurantId") as Long,
-                            description = food.get("description") as String
+                            description = food.get("description") as String,
+                            restaurantTitle = food.get("restaurantTitle") as String
                         )
-                    }
+                    },
+                    restaurantTitle = (it.get("restaurantTitle") as String)
                 )
             })
         } catch (e: Exception) {

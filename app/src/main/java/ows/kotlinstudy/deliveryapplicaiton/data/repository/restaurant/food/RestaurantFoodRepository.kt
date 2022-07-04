@@ -4,7 +4,7 @@ import ows.kotlinstudy.deliveryapplicaiton.data.entity.RestaurantFoodEntity
 
 interface RestaurantFoodRepository {
 
-    suspend fun getFoods(restaurantId: Long): List<RestaurantFoodEntity>
+    suspend fun getFoods(restaurantId: Long, restaurantTitle: String): List<RestaurantFoodEntity>
 
     suspend fun getAllFoodMenuListInBasket(): List<RestaurantFoodEntity>
 
