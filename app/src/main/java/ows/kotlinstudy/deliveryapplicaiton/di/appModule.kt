@@ -86,7 +86,7 @@ val appModule = module {
     single<MapRepository> { DefaultMapRepository(get(), get()) }
     single<UserRepository> { DefaultUserRepository(get(), get(), get()) }
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
-    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
+    single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get(), get()) }
     single<OrderRepository> { DefaultOrderRepository(get(), get()) }
     single { GalleryPhotoRepository(androidApplication()) }
 
@@ -116,5 +116,4 @@ val appModule = module {
     single { Firebase.firestore }
     single { FirebaseAuth.getInstance() }
     single { FirebaseStorage.getInstance() }
-    single { FirebaseFirestore.getInstance() }
 }

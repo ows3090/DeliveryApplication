@@ -1,6 +1,5 @@
 package ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.review
 
-import ows.kotlinstudy.deliveryapplicaiton.data.entity.RestaurantReviewEntity
 import ows.kotlinstudy.deliveryapplicaiton.model.restaurant.review.RestaurantReviewModel
 
 sealed class RestaurantReviewState {

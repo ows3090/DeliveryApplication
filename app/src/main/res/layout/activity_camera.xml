@@ -54,7 +54,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         android:contentDescription="@string/image_preview"
-        android:background="@drawable/button_round_corner_4_black_24"/>
+        android:background="@drawable/buttom_round_corner_4_black_24"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/flashSwitch"

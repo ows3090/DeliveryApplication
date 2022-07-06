@@ -13,6 +13,7 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.home.restaurant.detail.menu.RestaurantMenuListViewModel
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.listener.AdapterListener
+import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.listener.order.OrderListListener
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.listener.order.OrderMenuListListener
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.listener.restaurant.FoodMenuListListener
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.viewholder.ModelViewHolder
@@ -52,5 +53,11 @@ class OrderViewHolder(
         }
     }
 
-    override fun bindViews(model: OrderModel, adapterListener: AdapterListener) = Unit
+    override fun bindViews(model: OrderModel, adapterListener: AdapterListener){
+        if(adapterListener is OrderListListener){
+            binding.root.setOnClickListener {
+                adapterListener.writeRestaurantReview(model.orderId, model.restaurantTitle)
+            }
+        }
+    }
 }

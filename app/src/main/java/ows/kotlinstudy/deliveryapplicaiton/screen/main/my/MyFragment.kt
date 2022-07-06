@@ -18,9 +18,11 @@ import ows.kotlinstudy.deliveryapplicaiton.databinding.FragmentMyBinding
 import ows.kotlinstudy.deliveryapplicaiton.extensions.load
 import ows.kotlinstudy.deliveryapplicaiton.model.restaurant.order.OrderModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.base.BaseFragment
+import ows.kotlinstudy.deliveryapplicaiton.screen.review.AddRestaurantReviewActivity
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.ResourcesProvider
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.ModelRecyclerAdapter
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.listener.AdapterListener
+import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.listener.order.OrderListListener
 import kotlin.math.sign
 
 class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
@@ -63,7 +65,13 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
             listOf(),
             viewModel,
             resourcesProvider,
-            adapterListener = object : AdapterListener {}
+            adapterListener = object : OrderListListener{
+                override fun writeRestaurantReview(orderId: String, restaurantTitle: String) {
+                    startActivity(
+                        AddRestaurantReviewActivity.newIntent(requireActivity(), orderId, restaurantTitle)
+                    )
+                }
+            }
         )
     }
 

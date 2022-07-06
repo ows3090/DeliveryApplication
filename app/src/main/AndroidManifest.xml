@@ -29,6 +29,10 @@
         <activity
             android:name=".screen.mylocation.MyLocationActivity"
             android:exported="false" />
+
+        <activity android:name=".screen.review.camera.preview.ImagePreviewListActivity" />
+        <activity android:name=".screen.review.camera.CameraActivity" />
+
         <activity
             android:name=".screen.main.MainActivity"
             android:exported="true">

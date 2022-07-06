@@ -42,7 +42,6 @@
     <string name="user_id_not_found">유저 ID가 존재하지 않습니다.</string>
     <string name="order_history_title">주문내역 : %s</string>
 
-    <string name="order_history_title">주문 내역 : %s</string>
     <string name="add_restaurant_review">%s 리뷰 등록</string>
     <string name="title">제목</string>
     <string name="content">내용</string>
