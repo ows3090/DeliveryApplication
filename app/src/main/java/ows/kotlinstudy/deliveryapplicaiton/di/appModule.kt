@@ -37,6 +37,7 @@ import ows.kotlinstudy.deliveryapplicaiton.screen.main.like.RestaurantLikeListVi
 import ows.kotlinstudy.deliveryapplicaiton.screen.main.my.MyViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.mylocation.MyLocationViewModel
 import ows.kotlinstudy.deliveryapplicaiton.screen.order.OrderMenuListViewModel
+import ows.kotlinstudy.deliveryapplicaiton.screen.review.gallery.GalleryPhotoRepository
 import ows.kotlinstudy.deliveryapplicaiton.screen.review.gallery.GalleryViewModel
 import ows.kotlinstudy.deliveryapplicaiton.util.event.MenuChangeEventBus
 import ows.kotlinstudy.deliveryapplicaiton.util.provider.DefaultResourcesProvider
@@ -79,7 +80,7 @@ val appModule = module {
     }
 
     viewModel { OrderMenuListViewModel(get(), get()) }
-    viewModel { GalleryViewModel() }
+    viewModel { GalleryViewModel(get()) }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
     single<MapRepository> { DefaultMapRepository(get(), get()) }
@@ -87,6 +88,7 @@ val appModule = module {
     single<RestaurantFoodRepository> { DefaultRestaurantFoodRepository(get(), get(), get()) }
     single<RestaurantReviewRepository> { DefaultRestaurantReviewRepository(get()) }
     single<OrderRepository> { DefaultOrderRepository(get(), get()) }
+    single { GalleryPhotoRepository(androidApplication()) }
 
     single { provideGsonConvertFactory() }
     single { buildOkHttpClient() }

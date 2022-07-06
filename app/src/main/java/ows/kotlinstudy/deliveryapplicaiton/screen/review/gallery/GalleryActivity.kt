@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import org.koin.android.viewmodel.ext.android.viewModel
+import ows.kotlinstudy.deliveryapplicaiton.R
 import ows.kotlinstudy.deliveryapplicaiton.databinding.ActivityGalleryBinding
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.GalleryPhotoListAdapter
 import ows.kotlinstudy.deliveryapplicaiton.widget.decoration.GridDivideDecoration
@@ -33,7 +34,12 @@ class GalleryActivity : AppCompatActivity() {
 
     private fun initViews() = with(binding) {
         recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(GridDivideDecoration(this@GalleryActivity, R.drawable.bg_))
+        recyclerView.addItemDecoration(
+            GridDivideDecoration(
+                this@GalleryActivity,
+                R.drawable.bg_frame_gallery
+            )
+        )
         confirmButton.setOnClickListener {
             viewModel.confirmCheckedPhotos()
         }

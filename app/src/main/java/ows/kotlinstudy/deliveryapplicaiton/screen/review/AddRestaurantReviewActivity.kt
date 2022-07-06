@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -20,10 +20,9 @@ import kotlinx.coroutines.tasks.await
 import org.koin.android.ext.android.inject
 import ows.kotlinstudy.deliveryapplicaiton.data.entity.ReviewEntity
 import ows.kotlinstudy.deliveryapplicaiton.databinding.ActivityAddRestaurantReviewBinding
+import ows.kotlinstudy.deliveryapplicaiton.screen.review.camera.CameraActivity
 import ows.kotlinstudy.deliveryapplicaiton.screen.review.gallery.GalleryActivity
 import ows.kotlinstudy.deliveryapplicaiton.widget.adapter.PhotoListAdapter
-import java.lang.Exception
-import kotlin.Exception
 
 class AddRestaurantReviewActivity : AppCompatActivity() {
 
