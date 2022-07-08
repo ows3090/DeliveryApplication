@@ -79,7 +79,7 @@ val appModule = module {
         RestaurantReviewListViewModel(restaurantTitle, get())
     }
 
-    viewModel { OrderMenuListViewModel(get(), get()) }
+    viewModel { (firebaseAuth: FirebaseAuth) -> OrderMenuListViewModel(get(), get(), firebaseAuth) }
     viewModel { GalleryViewModel(get()) }
 
     single<RestaurantRepository> { DefaultRestaurantRepository(get(), get(), get()) }
